@@ -1,3 +1,6 @@
 require 'jiraa/version.rb'
 require 'jiraa/formatters/issue'
 require 'jiraa/formatters/issue_list'
+require 'jiraa/common'
+require 'jiraa/configuration'
+require 'jiraa/shell'

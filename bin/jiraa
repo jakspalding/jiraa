@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+$:.unshift(File.dirname(__FILE__) + '/../lib') unless $:.include?(File.dirname(__FILE__) + '/../lib')
 require 'gli'
 require 'jira_client'
 require 'yaml'
@@ -138,10 +139,7 @@ end
 desc 'Display information about Jira'
 command :info do |c|
   c.action do |global_options,options,args|
-    info = JiraClient.server_info
-    puts "Server: #{info.server_title}"
-    puts "URL: #{info.base_url}"
-    puts "Version: #{info.version}"
+    Jiraa::Common.server_info
   end
 end
 
@@ -211,58 +209,8 @@ command :rant do |c|
 end
 
 pre do |global,command,options,args|
-  config = load_config(global)
-  configure_client(config)
+  Jiraa::Configuration.init(global)
   true
-end
-
-def load_config(global_config)
-  config_filename = File.join(ENV['HOME'], ".jiraa")
-
-  config = if File.exists?(config_filename)
-    read_config_file(config_filename)
-  else
-    create_config_file(config_filename, global_config)
-  end
-
-  config.merge! global_config
-end
-
-def read_config_file(filename)
-  YAML.load_file(filename) || {}
-end
-
-def create_config_file(filename, config)
-  url = config[:url] || "https://jira.example.com"
-  username = config[:username] || "username"
-  password = config[:password] || "password"
-  certificate = config[:certificate] || "/usr/local/certificates/my_cert.pem"
-  File.open(filename, 'w') do |file|
-    file.write <<-EOF
----
-# Enter the URL of your Jira instance here:
-#{'#' unless config[:url]}url: #{url}
-
-# If your Jira server uses HTTP basic authentication then fill in your username and password:
-#{'#' unless config[:username]}username: #{username}
-#{'#' unless config[:password]}password: #{password}
-
-# If your Jira server users SSL certificate authentication then provide a path to your certificate:
-#{'#' unless config[:certificate]}certificate: #{certificate}
-EOF
-    {}
-  end
-end
-
-def configure_client(config)
-  JiraClient.configure do |c|
-    c.base_url = config["url"]
-    c.certificate = config["certificate"]
-    c.username = config["username"]
-    c.password = config["password"]
-    c.port = config["port"]
-    c.proxy = ENV['https_proxy']
-  end
 end
 
 exit run(ARGV)
