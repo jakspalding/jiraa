@@ -1,3 +1,5 @@
+require 'colorize'
+
 module Jiraa
   module Formatters
     class IssueList

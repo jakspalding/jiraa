@@ -17,5 +17,9 @@ module Jiraa
     def version
       puts Jiraa::version
     end
+
+    def current
+      Jiraa::Common.current_issues
+    end
   end
 end
