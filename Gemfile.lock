@@ -4,7 +4,7 @@ PATH
     jiraa (1.0.5)
       colorize (= 0.5.8)
       gli (= 2.5.6)
-      jira_client (>= 1.0.1)
+      jira_client (>= 1.0.2)
 
 GEM
   remote: https://rubygems.org/
@@ -33,7 +33,7 @@ GEM
       chronic_duration
       json
       rest-client
-    json (1.7.7)
+    json (1.8.0)
     mime-types (1.23)
     multi_json (1.7.2)
     numerizer (0.1.1)
