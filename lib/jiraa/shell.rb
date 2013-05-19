@@ -21,5 +21,9 @@ module Jiraa
     def current
       Jiraa::Common.current_issues
     end
+
+    def search(jql)
+      Jiraa::Common.search_issues(jql)
+    end
   end
 end

@@ -174,9 +174,7 @@ arg_name 'JQL'
 command :search do |c|
   c.action do |global_options,options,args|
     help_now! "Missing JQL statement" if args.length == 0
-    issues = JiraClient.find_issues(:jql => args[0], :fields => [:summary, :status, :issuetype, :assignee])
-    formatter = Jiraa::Formatters::IssueList.new(issues)
-    formatter.format
+    Jiraa::Common.search_issues(args[0])
   end
 end
 

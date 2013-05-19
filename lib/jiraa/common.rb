@@ -14,5 +14,11 @@ module Jiraa
       formatter = Jiraa::Formatters::IssueList.new(issues)
       formatter.format
     end
+
+    def self.search_issues(jql)
+      issues = JiraClient.find_issues(:jql => jql, :fields => [:summary, :status, :issuetype, :assignee])
+      formatter = Jiraa::Formatters::IssueList.new(issues)
+      formatter.format
+    end
   end
 end
